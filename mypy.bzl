@@ -138,6 +138,10 @@ def _mypy_rule_impl(ctx, is_aspect = False, exe = None, out_path = None):
             "{SRCS}": " ".join([
                 shell.quote(f.path)
                 for f in src_files
+                # Ignore generated files for now.
+                # A better option is to add them to package_root, which could
+                # be future work.
+                if not f.path.startswith("bazel-out/")
             ]),
             "{VERBOSE_OPT}": "--verbose" if DEBUG else "",
             "{VERBOSE_BASH}": "set -x" if DEBUG else "",
